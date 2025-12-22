@@ -9,24 +9,23 @@ import Interviews from './components/Interviews';
 import Reviews from './components/Reviews';
 import Games from './components/Games';
 import BoxOffice from './components/BoxOffice';
+import Archive from './components/Archive';
 import Bio from './components/Bio';
 import Music from './components/Music';
 import Releases from './components/Releases';
 import Fashion from './components/Fashion';
 import Quotes from './components/Quotes';
 import ManitSays from './components/ManitSays';
+import SearchResults from './components/SearchResults';
 import Modal from './components/shared/Modal';
-import Button from './components/shared/Button';
-import Input from './components/shared/Input';
 
 const App: React.FC = () => {
-  // If activeFeature is null, we show Home. Otherwise we show the feature.
   const [activeFeature, setActiveFeature] = useState<Feature | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [language, setLanguage] = useState<Language>('English');
   
   // Modal State
-  const [activeModal, setActiveModal] = useState<'signup' | 'about' | 'privacy' | 'contact' | 'disclaimer' | null>(null);
+  const [activeModal, setActiveModal] = useState<'about' | 'privacy' | 'contact' | 'disclaimer' | null>(null);
 
   const handleNavigate = (feature: Feature) => {
     setActiveFeature(feature);
@@ -51,12 +50,14 @@ const App: React.FC = () => {
         case 'Reviews': return <Reviews {...props} />;
         case 'Games': return <Games language={language} />;
         case 'Box Office': return <BoxOffice language={language} />;
+        case 'Archive': return <Archive />;
         case 'Bio': return <Bio language={language} />;
         case 'Music': return <Music {...props} />;
         case 'Releases': return <Releases language={language} />;
         case 'Fashion': return <Fashion language={language} />;
-        case 'Quotes': return <Quotes language={language} />;
+        case 'Dialogues': return <Quotes language={language} />;
         case 'ManitSays': return <ManitSays language={language} />;
+        case 'Search': return <SearchResults {...props} />;
         default: return null;
       }
     })();
@@ -68,7 +69,6 @@ const App: React.FC = () => {
           onBack={handleBack} 
           language={language} 
           setLanguage={setLanguage} 
-          onSignUp={() => setActiveModal('signup')}
         />
         <main className="container mx-auto px-4 py-6 flex-grow animate-slide-up">
           {content}
@@ -86,7 +86,6 @@ const App: React.FC = () => {
           searchQuery={searchQuery} 
           setSearchQuery={setSearchQuery} 
           onNavigate={handleNavigate} 
-          onSignUp={() => setActiveModal('signup')}
           onOpenAbout={() => setActiveModal('about')}
         />
       )}
@@ -129,39 +128,15 @@ const App: React.FC = () => {
         </div>
       </footer>
 
-      {/* --- MODALS --- */}
-
-      {/* Sign Up Modal */}
-      <Modal isOpen={activeModal === 'signup'} onClose={closeModal} title="Join the Club">
-        <div className="text-center mb-6">
-           <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-brand-primary/20 mb-4">
-              <span className="text-3xl">✨</span>
-           </div>
-           <p className="text-slate-400">Create an account to save your favorite movies, track quiz scores, and get personalized recommendations.</p>
-        </div>
-        <form className="space-y-4" onSubmit={(e) => { e.preventDefault(); closeModal(); }}>
-           <div>
-              <label className="block text-sm font-medium text-slate-300 mb-1">Full Name</label>
-              <Input placeholder="Enter your name" required />
-           </div>
-           <div>
-              <label className="block text-sm font-medium text-slate-300 mb-1">Email Address</label>
-              <Input type="email" placeholder="you@example.com" required />
-           </div>
-           <div>
-              <label className="block text-sm font-medium text-slate-300 mb-1">Password</label>
-              <Input type="password" placeholder="••••••••" required />
-           </div>
-           <Button type="submit" className="w-full mt-2">Create Account</Button>
-           <p className="text-xs text-center text-slate-500 mt-4">
-              By signing up, you agree to our <button type="button" onClick={() => setActiveModal('privacy')} className="underline hover:text-brand-primary">Privacy Policy</button>.
-           </p>
-        </form>
-      </Modal>
-
       {/* About Modal */}
       <Modal isOpen={activeModal === 'about'} onClose={closeModal} title="About MMM">
         <div className="space-y-4">
+           <div className="bg-slate-700/30 p-4 rounded-lg border-l-4 border-brand-secondary mb-6">
+              <p className="text-white italic leading-relaxed">
+                 "I'm Manit- a cinema lover who believes movie content doesn't have to be long and boring. Isliye main aapke liye laya hoon is blog par filmy gyaan gossip, quizzes, reviews aur celebrity interviews - sab kuch fast forward mode mein! So welcome to Manit Movie Minutes - jahan entertainment milega fast aur hoga Full Paisa vasool!"
+              </p>
+           </div>
+
            <p><strong className="text-brand-primary">Manit Movie Minutes (MMM)</strong> is your ultimate AI-powered companion for everything Bollywood. Born from a passion for cinema and powered by advanced Gemini technology, we aim to revolutionize how fans interact with Indian cinema.</p>
            <p>Whether you are looking for the latest box office figures, deep-dive reviews, styling tips from your favorite stars, or just want to test your trivia knowledge, MMM has something for everyone.</p>
            <h3 className="text-lg font-bold text-white mt-4">Our Mission</h3>
@@ -177,7 +152,7 @@ const App: React.FC = () => {
            <h4 className="font-bold text-white">1. Data Collection</h4>
            <p>We do not permanently store personal data on our servers. Any inputs provided (such as search queries) are used solely to generate real-time responses via the Gemini API.</p>
            <h4 className="font-bold text-white">2. Local Storage</h4>
-           <p>We use your browser's local storage to save preferences like your custom logo, theme settings, or quiz progress for a better user experience.</p>
+           <p>We use your browser's local storage to save preferences like theme settings or quiz progress for a better user experience.</p>
            <h4 className="font-bold text-white">3. Third-Party Services</h4>
            <p>Our app utilizes Google's Gemini API for content generation. Please refer to Google's privacy policy regarding data processed by their AI models.</p>
         </div>
@@ -222,7 +197,6 @@ const App: React.FC = () => {
            <p><strong>Financial Advice:</strong> Box office figures are estimates and should not be used for financial investment decisions.</p>
         </div>
       </Modal>
-
     </div>
   );
 };

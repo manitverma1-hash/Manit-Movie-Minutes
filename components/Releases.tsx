@@ -64,10 +64,17 @@ const Releases: React.FC<ReleasesProps> = ({ language }) => {
                        <div className="flex flex-col md:flex-row md:items-center justify-between mb-4">
                           <div>
                              <span className="text-xs font-bold text-brand-accent uppercase tracking-wider mb-1 block">{movie.releaseDate}</span>
-                             <h3 className="text-2xl font-bold text-white">{movie.title}</h3>
-                             <p className="text-sm text-slate-400">Dir. {movie.director}</p>
+                             <h3 className="text-2xl font-bold text-white mb-2">{movie.title}</h3>
+                             <div className="flex flex-col gap-1">
+                                <p className="text-sm text-slate-300">
+                                   <span className="text-slate-500 font-bold uppercase text-[10px] tracking-wider">Director</span> {movie.director}
+                                </p>
+                                <p className="text-sm text-slate-300">
+                                   <span className="text-slate-500 font-bold uppercase text-[10px] tracking-wider">Producer</span> {movie.producer}
+                                </p>
+                             </div>
                           </div>
-                          <div className={`mt-2 md:mt-0 px-3 py-1 border rounded text-xs font-bold uppercase ${getBuzzColor(movie.buzz)}`}>
+                          <div className={`mt-4 md:mt-0 md:ml-4 px-3 py-1 border rounded text-xs font-bold uppercase ${getBuzzColor(movie.buzz)}`}>
                              Buzz: {movie.buzz}
                           </div>
                        </div>

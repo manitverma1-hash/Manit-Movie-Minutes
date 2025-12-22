@@ -1,22 +1,19 @@
 
 import React from 'react';
 import type { Feature, Language } from '../types';
-import Button from './shared/Button';
 
 interface NavbarProps {
   activeFeature: Feature;
   onBack: () => void;
   language: Language;
   setLanguage: (lang: Language) => void;
-  onSignUp: () => void;
 }
 
 const languages: Language[] = ['English', 'Hindi', 'Spanish', 'French', 'Arabic', 'Mandarin', 'Russian'];
 
-const Navbar: React.FC<NavbarProps> = ({ activeFeature, onBack, language, setLanguage, onSignUp }) => {
+const Navbar: React.FC<NavbarProps> = ({ activeFeature, onBack, language, setLanguage }) => {
   const [langMenuOpen, setLangMenuOpen] = React.useState(false);
 
-  // Map features to icons/labels if needed, or just use text
   const getFeatureLabel = (f: string) => f === 'ManitSays' ? 'Manit Says' : f;
 
   return (
@@ -40,10 +37,9 @@ const Navbar: React.FC<NavbarProps> = ({ activeFeature, onBack, language, setLan
              </div>
           </div>
 
-          {/* Right Side: Language, Sign Up */}
+          {/* Right Side: Language */}
           <div className="flex items-center gap-3">
-             {/* Language Dropdown */}
-             <div className="relative hidden md:block">
+             <div className="relative">
                 <button 
                   onClick={() => setLangMenuOpen(!langMenuOpen)}
                   className="flex items-center space-x-1 bg-slate-800 border border-slate-700 text-white px-2 py-1.5 rounded-md hover:bg-slate-700 text-xs md:text-sm"
@@ -69,10 +65,6 @@ const Navbar: React.FC<NavbarProps> = ({ activeFeature, onBack, language, setLan
                    </>
                 )}
             </div>
-
-            <Button onClick={onSignUp} className="text-sm font-bold py-2 px-5 md:px-6 bg-gradient-to-r from-brand-primary to-purple-600 hover:from-brand-primary/80 hover:to-purple-500 border-none">
-               Sign Up
-            </Button>
           </div>
        </div>
     </div>

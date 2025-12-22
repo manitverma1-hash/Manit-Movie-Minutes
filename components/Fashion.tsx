@@ -74,7 +74,7 @@ const Fashion: React.FC<FashionProps> = ({ language }) => {
 
       {styleData && !loading && (
         <div className="animate-in fade-in slide-in-from-bottom-8 duration-700">
-           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
               {/* Left Column: Description & Elements */}
               <div className="space-y-6">
                  <div>
@@ -100,37 +100,81 @@ const Fashion: React.FC<FashionProps> = ({ language }) => {
                  </Card>
               </div>
 
-              {/* Right Column: Style Guide Card */}
-              <div className="relative">
-                  <div className="absolute inset-0 bg-gradient-to-br from-purple-600 to-brand-primary rounded-xl transform rotate-3 opacity-20 blur-lg"></div>
-                  <Card className="relative h-full border-none bg-slate-900 p-8 flex flex-col">
-                     <div className="mb-6 text-center">
-                        <span className="inline-block p-3 rounded-full bg-slate-800 mb-4">
-                           <svg className="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                           </svg>
-                        </span>
-                        <h3 className="text-2xl font-bold text-white">Style Guide</h3>
-                        <p className="text-sm text-slate-400 mt-1">How to recreate this look</p>
-                     </div>
+              {/* Right Column: Style Guide & Shop Section */}
+              <div className="space-y-6">
+                  {/* Style Guide */}
+                  <div className="relative">
+                      <div className="absolute inset-0 bg-gradient-to-br from-purple-600 to-brand-primary rounded-xl transform rotate-1 opacity-10 blur-md"></div>
+                      <Card className="relative border-none bg-slate-900 p-8 flex flex-col">
+                         <div className="mb-6 text-center">
+                            <span className="inline-block p-3 rounded-full bg-slate-800 mb-4">
+                               <svg className="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                               </svg>
+                            </span>
+                            <h3 className="text-2xl font-bold text-white">Style Guide</h3>
+                            <p className="text-sm text-slate-400 mt-1">How to recreate this look</p>
+                         </div>
 
-                     <div className="space-y-4 flex-grow">
-                        {styleData.tips.map((tip, i) => (
-                           <div key={i} className="flex gap-4">
-                              <span className="text-4xl font-serif text-slate-700 font-bold leading-none">{i + 1}</span>
-                              <p className="text-slate-300 text-sm mt-1">{tip}</p>
-                           </div>
-                        ))}
-                     </div>
+                         <div className="space-y-4 flex-grow">
+                            {styleData.tips.map((tip, i) => (
+                               <div key={i} className="flex gap-4">
+                                  <span className="text-4xl font-serif text-slate-700 font-bold leading-none">{i + 1}</span>
+                                  <p className="text-slate-300 text-sm mt-1">{tip}</p>
+                               </div>
+                            ))}
+                         </div>
+                      </Card>
+                  </div>
+
+                  {/* Shop Section */}
+                  <Card className="p-6 border-emerald-500/30 bg-slate-800/50">
+                     <h3 className="text-lg font-bold text-emerald-400 mb-4 flex items-center">
+                        <svg className="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                        </svg>
+                        Shop the Look
+                     </h3>
                      
-                     <div className="mt-8 pt-6 border-t border-slate-800 text-center">
+                     {styleData.shoppingLinks && styleData.shoppingLinks.length > 0 ? (
+                        <div className="space-y-3">
+                           {styleData.shoppingLinks.map((link, i) => (
+                              <a 
+                                 key={i} 
+                                 href={link.url} 
+                                 target="_blank" 
+                                 rel="noopener noreferrer" 
+                                 className="flex items-center justify-between p-3 rounded-lg bg-slate-700/50 hover:bg-emerald-600/20 border border-slate-600 hover:border-emerald-500/50 transition-all group"
+                              >
+                                 <div className="flex flex-col">
+                                    <span className="text-xs text-slate-400 uppercase tracking-tighter">Available at</span>
+                                    <span className="text-white font-bold">{link.storeName}</span>
+                                 </div>
+                                 <span className="bg-emerald-600 text-white px-3 py-1 rounded text-[10px] font-bold uppercase tracking-widest group-hover:scale-105 transition-transform shadow-lg">Buy Now</span>
+                              </a>
+                           ))}
+                        </div>
+                     ) : (
+                        <div className="text-center py-4">
+                           <p className="text-slate-400 text-sm mb-4">No specific store links found for this premium look.</p>
+                           <Button 
+                              onClick={() => window.open(`https://www.google.com/search?q=buy+similar+to+${encodeURIComponent(styleData.celebrity + " " + styleData.lookName + " outfit")}`, '_blank')}
+                              variant="secondary"
+                              className="w-full text-xs py-2 bg-emerald-600 hover:bg-emerald-700"
+                           >
+                              Search for Similar on Google Shopping
+                           </Button>
+                        </div>
+                     )}
+                     
+                     <div className="mt-6 pt-4 border-t border-slate-700 text-center">
                         <a 
-                           href={`https://www.google.com/search?q=${encodeURIComponent(styleData.celebrity + " " + styleData.lookName + " fashion")}`}
+                           href={`https://www.google.com/search?q=${encodeURIComponent(styleData.celebrity + " " + styleData.lookName + " fashion photos")}`}
                            target="_blank"
                            rel="noopener noreferrer"
                            className="inline-flex items-center text-sm font-bold text-brand-primary hover:text-white transition-colors"
                         >
-                           View Photos on Google
+                           View Photos & Credits
                            <svg className="w-4 h-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                            </svg>

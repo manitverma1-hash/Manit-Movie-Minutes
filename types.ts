@@ -1,5 +1,5 @@
 
-export type Feature = 'Quiz' | 'News' | 'Interviews' | 'Reviews' | 'Games' | 'Box Office' | 'Bio' | 'Music' | 'Releases' | 'Fashion' | 'Quotes' | 'ManitSays';
+export type Feature = 'Quiz' | 'News' | 'Interviews' | 'Reviews' | 'Games' | 'Box Office' | 'Archive' | 'Bio' | 'Music' | 'Releases' | 'Fashion' | 'Dialogues' | 'ManitSays' | 'Search';
 
 export type Language = 'English' | 'Hindi' | 'Spanish' | 'French' | 'Arabic' | 'Mandarin' | 'Russian';
 
@@ -14,6 +14,8 @@ export interface NewsArticle {
   summary: string;
   sourceName: string;
   sourceUrl: string;
+  category: string;
+  date?: string;
 }
 
 export interface CelebrityInterview {
@@ -68,6 +70,7 @@ export interface UpcomingMovie {
   releaseDate: string;
   cast: string[];
   director: string;
+  producer: string; // Added producer field
   synopsis: string;
   buzz: string; // High, Medium, Low
 }
@@ -78,6 +81,7 @@ export interface FashionStyle {
   description: string;
   elements: string[]; // List of items (e.g., "Oversized sunglasses", "White sneakers")
   tips: string[]; // How to recreate
+  shoppingLinks?: { storeName: string; url: string }[]; 
 }
 
 export interface Quote {
@@ -104,4 +108,9 @@ export interface ManitContent {
   date: string;
   tags: string[];
   comments: UserComment[];
+}
+
+export interface SearchResult {
+  text: string;
+  sources: { title: string; uri: string }[];
 }
